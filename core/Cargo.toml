@@ -1,0 +1,51 @@
+[package]
+name = "lookout-core"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.80"
+description = "Lookout's DSM client, records and trend store — nothing here draws"
+license = "GPL-3.0-or-later"
+
+[lib]
+name = "lookout_core"
+path = "src/lib.rs"
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+# Sample timestamps in the trend store and the parsing of DSM's several
+# different opinions about how to write a date. `clock` is on because a
+# collected sample is stamped at the moment it is collected — but every
+# function whose *answer* depends on the time takes `now` as an argument, so
+# the tests never wait for a clock.
+chrono = { version = "0.4", default-features = false, features = [
+    "std",
+    "clock",
+    "serde",
+] }
+
+# The one dependency that has to be argued for, since the house rule is to
+# hand-roll a protocol this small. It is not this small: DSM speaks HTTPS, and
+# the certificate is either a real one (a `ts.net` name gets Let's Encrypt) or
+# the self-signed one every DiskStation ships with. Hand-rolling TLS is not on
+# the table, and once a TLS stack is linked the HTTP framing on top of it is
+# the cheap part — so taking the framing too costs nothing extra and removes a
+# hundred lines that would need their own tests.
+#
+# `ureq` rather than `reqwest`: this is a blocking client making a handful of
+# requests on a timer, and the app has no async runtime and wants none. reqwest
+# would pull tokio into the Flatpak to serve calls that are made five seconds
+# apart.
+#
+# rustls rather than native-tls so a Flatpak build does not depend on the
+# host's OpenSSL, and so `danger_accept_invalid_certs` is a rustls decision
+# rather than a platform one — a DiskStation's default certificate is
+# self-signed, so refusing it outright would lock out most installations.
+ureq = { version = "3", default-features = false, features = [
+    "rustls",
+    "json",
+    "gzip",
+] }
+
+[dev-dependencies]
+tempfile = "3"

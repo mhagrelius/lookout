@@ -1,0 +1,5 @@
+# Build output.
+/target
+
+# Preview renders, which are looked at and thrown away.
+/preview

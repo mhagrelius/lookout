@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>us.hagreli.Lookout</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <name>Lookout</name>
+  <summary>Monitor a Synology DiskStation</summary>
+  <description>
+    <p>
+      Lookout shows what a Synology DiskStation is doing: system health,
+      resource use with recorded trends, storage pools and per-drive S.M.A.R.T.,
+      containers, shared folders and the system log.
+    </p>
+    <p>
+      DSM keeps no performance history of its own, so Lookout records its own
+      samples and draws them over the last hour, day, week or month.
+    </p>
+  </description>
+  <launchable type="desktop-id">us.hagreli.Lookout.desktop</launchable>
+  <developer id="us.hagreli">
+    <name>Matthew Hagrelius</name>
+  </developer>
+  <content_rating type="oars-1.1"/>
+  <releases>
+    <release version="0.1.0" date="2026-08-06">
+      <description><p>First release.</p></description>
+    </release>
+  </releases>
+</component>

@@ -1,0 +1,43 @@
+[workspace]
+members = ["core"]
+
+[package]
+name = "lookout"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.80"
+description = "A Synology DiskStation monitor for the GNOME desktop"
+license = "GPL-3.0-or-later"
+
+[[bin]]
+name = "lookout"
+path = "src/main.rs"
+
+# A library as well as a binary, so integration tests and examples can drive
+# the real application rather than a copy of it.
+[lib]
+name = "lookout"
+path = "src/lib.rs"
+
+[dependencies]
+# The DSM client, the domain records and the trend store. Links no UI toolkit
+# and no GTK types, which is the whole point of it: this is the half a Windows
+# or macOS shell keeps when it replaces everything below.
+lookout-core = { path = "core" }
+gtk = { package = "gtk4", version = "0.11", features = ["v4_22"] }
+adw = { package = "libadwaita", version = "0.9", features = ["v1_9"] }
+gio = { version = "0.22", features = ["v2_80"] }
+# Timestamps on the header pill and the log rows. `clock` for `ui::now()`, the
+# one place anything in the shell asks what time it is.
+chrono = { version = "0.4", default-features = false, features = [
+    "std",
+    "clock",
+    "serde",
+] }
+
+[dev-dependencies]
+tempfile = "3"
+adw = { package = "libadwaita", version = "0.9", features = ["v1_9"] }
+# `examples/preview.rs` seeds the page from the DSM replies captured verbatim
+# off a real DiskStation, which means writing them as JSON.
+serde_json = "1"

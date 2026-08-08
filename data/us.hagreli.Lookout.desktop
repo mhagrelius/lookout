@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Lookout
+GenericName=DiskStation Monitor
+Comment=Monitor a Synology DiskStation
+Exec=lookout
+Icon=us.hagreli.Lookout
+Terminal=false
+Type=Application
+Categories=System;Monitor;GTK;
+Keywords=synology;nas;diskstation;dsm;storage;monitor;
+StartupNotify=true
